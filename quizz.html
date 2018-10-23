@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    body, html {
+        width: 100%;
+        height: 100%;
+    }
+
+    #container {
+        height: 100%;
+        width: 100%;
+		background-color: white;
+    }
+
+    #image-frame {
+        text-align: center;
+    }
+
+    #image {
+        height: 50%;
+        width: 50%;
+    }
+
+    #response-frame {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #response-frame > span {
+        flex: 1;
+		color: blue;
+    }
+
+    #response-frame > span > button {
+		color: blue;
+		background-color: yellow;
+		border-radius: 25px;
+    }
+	
+	#finJeu {
+	font-size: 50px;
+	color: orange;
+	text-align: center;
+	
+	}
+	
+	#score {
+		
+	
+    }
+	
+	#pourcentage{
+		font-size: 100px;
+		font-style: bold;
+	}
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="image-frame"></div>
+        <div id="response-frame"></div>
+    </div>
+</body>
+</html>
+<script>
+    const reponses= [
+        "Poisonous",
+        "Tranquil",
+        "Roasted",
+        "Spell",
+        "Chicken",
+        "Drooling",
+        "Exhausted",
+        "Star",
+        "Precisous",
+        "Flowing",
+        "Cruel",
+        "Whale",
+        "Guarded",
+        "Clock",
+        "Weak",
+        "Angular",
+        "Swollen",
+        "Bottle",
+        "Scortched",
+        "Breakable",
+        "Drain",
+        "Expensive",
+        "Muddy",
+        "Chop",
+        "Prickly",
+        "Strech",
+        "Thunder",
+        "Gift",
+        "Double",
+        "Jolt",
+        "Slice"
+    ];
+
+    let score=0;
+    let questionActuelle=0;
+
+    function reponse(rep) {
+        if (rep === reponses[questionActuelle]) score++
+        questionActuelle++;
+        if (questionActuelle == reponses.length) {
+            endGame();
+        } else {
+            buildReponses(questionActuelle)
+        }
+    }
+
+
+    function buildReponses() {
+        let reponsesPossibles = [reponses[questionActuelle]];
+        while (reponsesPossibles.length < 5) {
+            let aRandomNumb = randomNumberBetween1and31();
+            if (! reponsesPossibles.includes( reponses[aRandomNumb] ) ) {
+                reponsesPossibles.push(reponses[aRandomNumb])
+            }
+        }
+        reponsesPossibles.sort()
+
+        let html =
+            '<span><button type="button" onclick="reponse(\''+ reponsesPossibles[0] +'\')" >'+ reponsesPossibles[0] +'</button></span>' +
+            '<span><button type="button" onclick="reponse(\''+ reponsesPossibles[1] +'\')" >'+ reponsesPossibles[1] +'</button></span>' +
+            '<span><button type="button" onclick="reponse(\''+ reponsesPossibles[2] +'\')" >'+ reponsesPossibles[2] +'</button></span>' +
+            '<span><button type="button" onclick="reponse(\''+ reponsesPossibles[3] +'\')" >'+ reponsesPossibles[3] +'</button></span>' +
+            '<span><button type="button" onclick="reponse(\''+ reponsesPossibles[4] +'\')" >'+ reponsesPossibles[4] +'</button></span>' ;
+        htmlSet('response-frame', html);
+
+		let pic = questionActuelle+1;
+        let htmlImage = '<img src="images/'+ pic +'.png" id="image">';
+        htmlSet('image-frame', htmlImage);
+    }
+
+    function endGame() {
+        var scorPourcent = Math.round( (score * 100) / 31);
+        var endHtml = '<div id="finJeu"><div id="score"> Your score: ' + score + '/31</div> <div id="pourcentage">'+ scorPourcent +' %</div></div> ';
+        htmlSet('container', endHtml);
+    }
+
+    function htmlSet(id, value) {
+        document.getElementById(id).innerHTML = value;
+    }
+
+    function randomNumberBetween1and31() {
+        return Math.floor(Math.random() * 31) + 1
+    }
+
+    buildReponses()
+	//endGame();
+</script>
