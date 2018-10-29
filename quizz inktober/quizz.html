@@ -130,7 +130,66 @@
 	position:relative;
     text-align:center;
 	}
-	
+    .switch-field {
+        font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
+        padding: 40px;
+        overflow: hidden;
+    }
+
+    .switch-title {
+        margin-bottom: 6px;
+    }
+
+    .switch-field input {
+        position: absolute !important;
+        clip: rect(0, 0, 0, 0);
+        height: 1px;
+        width: 1px;
+        border: 0;
+        overflow: hidden;
+    }
+
+    .switch-field label {
+        float: left;
+    }
+
+    .switch-field label {
+        display: inline-block;
+        width: 60px;
+        background-color: #e4e4e4;
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 14px;
+        font-weight: normal;
+        text-align: center;
+        text-shadow: none;
+        padding: 6px 14px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+        -webkit-transition: all 0.1s ease-in-out;
+        -moz-transition:    all 0.1s ease-in-out;
+        -ms-transition:     all 0.1s ease-in-out;
+        -o-transition:      all 0.1s ease-in-out;
+        transition:         all 0.1s ease-in-out;
+    }
+
+    .switch-field label:hover {
+        cursor: pointer;
+    }
+
+    .switch-field input:checked + label {
+        background-color: #A5DC86;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
+    .switch-field label:first-of-type {
+        border-radius: 4px 0 0 4px;
+    }
+
+    .switch-field label:last-of-type {
+        border-radius: 0 4px 4px 0;
+    }
 
     </style>
 </head>
@@ -139,6 +198,10 @@
 	
 
 	<h1 id="title"><span>Inktober Game 2018</span></h1>
+        <div class="switch-field">
+            <button onclick="startEnglish()">English</button>
+            <button onclick="startFrench()">Français</button>
+        </div>
         <div id="image-frame"></div>
         <div id="response-frame"></div>
 		
@@ -180,17 +243,72 @@
         "Jolt",
         "Slice"
     ];
+    const reponsesFR= [
+        "Toxique",
+        "Tranquille",
+        "Roti",
+        "Sort",
+        "Poulet",
+        "Baver",
+        "Epuisé",
+        "Star",
+        "Precieux",
+        "Ecoulement",
+        "Cruel",
+        "Baleine",
+        "Protégé",
+        "Horloge",
+        "Faible",
+        "Angulaire",
+        "Gonflé",
+        "Bouteille",
+        "Roussi",
+        "Cassable",
+        "Aspirer",
+        "Couteux",
+        "Boueux",
+        "Hacher",
+        "Epineux",
+        "Etiré",
+        "Tonnerre",
+        "Cadeau",
+        "Double",
+        "Choc",
+        "Tranche"
+    ];
 
     let score=0;
     let questionActuelle=0;
+    let langageEnglish = true;
 
     function reponse(rep) {
-        if (rep === reponses[questionActuelle]) score++
-        questionActuelle++;
-        if (questionActuelle == reponses.length) {
-            endGame();
+        if (langageEnglish) {
+            if (rep === reponses[questionActuelle]) score++
+            console.log(score)
+            questionActuelle++;
+            if (questionActuelle == reponses.length) {
+                endGame();
+            } else {
+                if (langageEnglish) {
+                    buildReponses(questionActuelle)
+                } else {
+                    buildReponsesFR(questionActuelle)
+                }
+            }
         } else {
-            buildReponses(questionActuelle)
+            if (rep === reponsesFR[questionActuelle]) score++
+            console.log(score)
+            questionActuelle++;
+            if (questionActuelle == reponses.length) {
+                endGame();
+            } else {
+                if (langageEnglish) {
+                    buildReponses(questionActuelle)
+                } else {
+                    buildReponsesFR(questionActuelle)
+                }
+            }
+
         }
     }
 
@@ -213,7 +331,31 @@
             '<span><button type="button" class="clio_button" onclick="reponse(\''+ reponsesPossibles[4] +'\')" >'+ reponsesPossibles[4] +'</button></span>' ;
         htmlSet('response-frame', html);
 
-		let pic = questionActuelle+1;
+        let pic = questionActuelle+1;
+        let htmlImage = '<img src="images/'+ pic +'.png" id="image">';
+        htmlSet('image-frame', htmlImage);
+    }
+
+
+    function buildReponsesFR() {
+        let reponsesPossibles = [reponsesFR[questionActuelle]];
+        while (reponsesPossibles.length < 5) {
+            let aRandomNumb = randomNumberBetween1and31();
+            if (! reponsesPossibles.includes( reponsesFR[aRandomNumb-1] ) ) {
+                reponsesPossibles.push(reponsesFR[aRandomNumb-1])
+            }
+        }
+        reponsesPossibles.sort()
+
+        let html =
+            '<span><button type="button" class="clio_button" onclick="reponse(\''+ reponsesPossibles[0] +'\')" >'+ reponsesPossibles[0] +'</button></span>' +
+            '<span><button type="button" class="clio_button" onclick="reponse(\''+ reponsesPossibles[1] +'\')" >'+ reponsesPossibles[1] +'</button></span>' +
+            '<span><button type="button" class="clio_button" onclick="reponse(\''+ reponsesPossibles[2] +'\')" >'+ reponsesPossibles[2] +'</button></span>' +
+            '<span><button type="button" class="clio_button" onclick="reponse(\''+ reponsesPossibles[3] +'\')" >'+ reponsesPossibles[3] +'</button></span>' +
+            '<span><button type="button" class="clio_button" onclick="reponse(\''+ reponsesPossibles[4] +'\')" >'+ reponsesPossibles[4] +'</button></span>' ;
+        htmlSet('response-frame', html);
+
+        let pic = questionActuelle+1;
         let htmlImage = '<img src="images/'+ pic +'.png" id="image">';
         htmlSet('image-frame', htmlImage);
     }
@@ -232,6 +374,16 @@
         return Math.floor(Math.random() * 31) + 1
     }
 
-    buildReponses()
+    function startEnglish() {
+        buildReponses()
+        langageEnglish=true;
+    }
+
+    function startFrench() {
+        buildReponsesFR()
+        langageEnglish=false;
+    }
+
+    //
 	//endGame();
 </script>
