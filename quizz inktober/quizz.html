@@ -16,7 +16,7 @@
 
     #image-frame {
         text-align: center;
-		//height: 50%;
+		height: 50%;
 		width: auto;
 		
     }
@@ -199,8 +199,8 @@
         let reponsesPossibles = [reponses[questionActuelle]];
         while (reponsesPossibles.length < 5) {
             let aRandomNumb = randomNumberBetween1and31();
-            if (! reponsesPossibles.includes( reponses[aRandomNumb] ) ) {
-                reponsesPossibles.push(reponses[aRandomNumb])
+            if (! reponsesPossibles.includes( reponses[aRandomNumb-1] ) ) {
+                reponsesPossibles.push(reponses[aRandomNumb-1])
             }
         }
         reponsesPossibles.sort()
