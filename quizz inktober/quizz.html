@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    body, html { height: 100%;
+    }
+
+    #container {
+		background-color: white;
+		border: solid black 4px;
+		height: 100%;
+		width: auto;
+    }
+
+    #image-frame {
+        text-align: center;
+		//height: 50%;
+		width: auto;
+		
+    }
+
+    #image {
+        max-height: 100%;
+		max-width: 100%;
+		box-shadow:5px 8px 15px #999;
+	    
+    }
+
+    #response-frame {
+        text-align: center;
+        //display: flex;
+        //flex-direction: column;
+    }
+
+    #response-frame > span {
+        flex: 1;
+		color: black;
+    }
+
+    #response-frame > span > button {
+		color: black;
+		border-radius:12px 0 12px 0;
+		background: #f5f5f5;
+		border:none;
+		color:#555;
+		font:bold 12px Verdana;
+		padding:10px 8px 10px 8px;
+		box-shadow:2px 2px 3px #999;
+		margin: 15px;
+		margin-top: 25px;
+		
+    }
+	
+	/* Button */
+.clio_button {
+   text-decoration: none;
+   color: #FFFFFF !important;
+   position: relative;
+   text-transform: initial !important;
+   font-size: 1.2em !important;
+   font-weight: 500 !important;
+   z-index: 0;
+   overflow: hidden !important;
+   letter-spacing: 1.2px;
+   transition: transform 0s !important;
+   font-family: proximaNova, sans-serif !important; 
+}
+.clio_button:hover {
+    color: #FFFFFF;
+	cursor: pointer;
+}
+.clio_button::before, .clio_button::after {
+   content: "";
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   transition: left 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.clio_button::before {
+   background-color: #6b3052;
+   z-index: -1;
+   left: 0;
+}
+.clio_button::after {
+   background-color: #b2307c;
+   z-index: -1;
+   left: 100%;
+}
+.clio_button:hover::before {
+   left: -100%;
+}
+.clio_button:hover::after {
+   left: 0;
+}
+.clio_button [class^="clio-"]::before {
+    vertical-align: text-bottom;
+}
+.clio_button:active {
+    transform: translateY(-2px);
+}
+	
+	#finJeu {
+	font-size: 50px;
+	color: #6b3052;
+	text-align: center;
+    border-left: 500px solid #6b3052;
+    border-right: 500px solid #6b3052;
+	background: #f5f5f5;
+	
+    
+
+
+	
+	}
+	
+	#score {
+		
+	
+    }
+	
+	#pourcentage{
+		font-size: 100px;
+		font-style: bold;
+	}
+	
+	#title{
+	position:relative;
+    text-align:center;
+	}
+	
+
+    </style>
+</head>
+<body>
+    <div id="container">
+	
+
+	<h1 id="title"><span>Inktober Game 2018</span></h1>
+        <div id="image-frame"></div>
+        <div id="response-frame"></div>
+		
+		
+    </div>
+</body>
+</html>
+<script>
+    const reponses= [
+        "Poisonous",
+        "Tranquil",
+        "Roasted",
+        "Spell",
+        "Chicken",
+        "Drooling",
+        "Exhausted",
+        "Star",
+        "Precisous",
+        "Flowing",
+        "Cruel",
+        "Whale",
+        "Guarded",
+        "Clock",
+        "Weak",
+        "Angular",
+        "Swollen",
+        "Bottle",
+        "Scortched",
+        "Breakable",
+        "Drain",
+        "Expensive",
+        "Muddy",
+        "Chop",
+        "Prickly",
+        "Strech",
+        "Thunder",
+        "Gift",
+        "Double",
+        "Jolt",
+        "Slice"
+    ];
+
+    let score=0;
+    let questionActuelle=0;
+
+    function reponse(rep) {
+        if (rep === reponses[questionActuelle]) score++
+        questionActuelle++;
+        if (questionActuelle == reponses.length) {
+            endGame();
+        } else {
+            buildReponses(questionActuelle)
+        }
+    }
+
+
+    function buildReponses() {
+        let reponsesPossibles = [reponses[questionActuelle]];
+        while (reponsesPossibles.length < 5) {
+            let aRandomNumb = randomNumberBetween1and31();
+            if (! reponsesPossibles.includes( reponses[aRandomNumb] ) ) {
+                reponsesPossibles.push(reponses[aRandomNumb])
+            }
+        }
+        reponsesPossibles.sort()
+
+        let html =
+            '<span><button type="button" class="clio_button" onclick="reponse(\''+ reponsesPossibles[0] +'\')" >'+ reponsesPossibles[0] +'</button></span>' +
+            '<span><button type="button" class="clio_button" onclick="reponse(\''+ reponsesPossibles[1] +'\')" >'+ reponsesPossibles[1] +'</button></span>' +
+            '<span><button type="button" class="clio_button" onclick="reponse(\''+ reponsesPossibles[2] +'\')" >'+ reponsesPossibles[2] +'</button></span>' +
+            '<span><button type="button" class="clio_button" onclick="reponse(\''+ reponsesPossibles[3] +'\')" >'+ reponsesPossibles[3] +'</button></span>' +
+            '<span><button type="button" class="clio_button" onclick="reponse(\''+ reponsesPossibles[4] +'\')" >'+ reponsesPossibles[4] +'</button></span>' ;
+        htmlSet('response-frame', html);
+
+		let pic = questionActuelle+1;
+        let htmlImage = '<img src="images/'+ pic +'.png" id="image">';
+        htmlSet('image-frame', htmlImage);
+    }
+
+    function endGame() {
+        var scorPourcent = Math.round( (score * 100) / 31);
+        var endHtml = '<div id="finJeu"><div id="score"> Your score: ' + score + '/31</div> <div id="pourcentage">'+ scorPourcent +' %</div></div> ';
+        htmlSet('container', endHtml);
+    }
+
+    function htmlSet(id, value) {
+        document.getElementById(id).innerHTML = value;
+    }
+
+    function randomNumberBetween1and31() {
+        return Math.floor(Math.random() * 31) + 1
+    }
+
+    buildReponses()
+	//endGame();
+</script>
