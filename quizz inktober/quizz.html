@@ -9,13 +9,14 @@
 
     #container {
 		background-color: white;
+	
 		height: 100%;
 		width: auto;
     }
 
     #image-frame {
         text-align: center;
-		height: 50%;
+		height: 85%;
 		width: auto;
 		
     }
@@ -102,13 +103,20 @@
 }
 	
 	#finJeu {
-        font-size: 50px;
+        font-size: 80px;
         color: #6b3052;
         text-align: center;
+		background: white;
+		border: 30px inset rgba(6, 0, 0, 0.3);
+		background-image: <img id="response-frame">  src="images/list.jpg">;
+		
+   border-radius:45px;
+   padding:15px;
+   margin-top:100px;
 	}
 	
 	#score {
-		
+		color: #6b3052;
 	
     }
 	
@@ -119,9 +127,90 @@
 	
 	#title{
 	position:relative;
+	 font-family:"palatino linotype", palatino, serif;
+	font-size: 38px;
     text-align:center;
+	color:#6b3052;
+	
+
+	}
+	
+	.switch-field {
+	position:relative;
+    text-align:center;
+	
+	
+	}
+	
+	.switch-field > button {
+	position:relative;
+    text-align:center;
+	
 	}
 
+	
+	#FR {
+	  display: inline-block;
+	   font-family:"roboto";
+	  padding: 8px 15px;
+	  font-size: 20px;
+	 
+	  cursor: pointer;
+	  text-align: center;
+	  text-decoration: none;
+	  outline: none;
+	  color: white;
+	  background-color: #2a0e3a;
+	  border: none;
+	  border-radius: 15px;
+	 
+
+}
+
+	
+	#EN {
+	  display: inline-block;
+	   font-family:"roboto";
+	  padding: 8px 15px;
+	  font-size: 20px;
+	  cursor: pointer;
+	  text-align: center;
+	  text-decoration: none;
+	  outline: none;
+	  color: white;
+	  background-color: #2a0e3a;
+	  border: none;
+	  border-radius: 15px;
+	
+	 
+	
+}
+
+	#fond{
+		height: 400px;
+	}
+	
+	#accueil {
+		text-align: center;
+		margin-bottom: 15px;
+	}
+	#accueil>p {
+		text-align: center;
+		font-family:"roboto";
+		font-size: 18px;
+		color:#6b3052;
+	}
+	
+	#response-frame {
+		}
+	
+	#response-frame>p {
+	
+	}	
+	#list{
+		height: ;
+	}
+	
     </style>
 </head>
 <body>
@@ -129,12 +218,23 @@
 	
 
 	<h1 id="title"><span>Inktober Game 2018</span></h1>
+	
+	
+	<div id="accueil">
+		<p> Inktober est maintenant terminé et je suis ravie d'avoir pu participer à ce challenge donné par Jake Parker.</p>
+		<p>	A vous de jouer maintenant, voyons si vous avez bien suivi ce mois d'Octobre avec attention... Si j'ai bien dessiné, vous devriez avoir tous 100% !! </p>
+		
+		<img id="fond" src="images/inktoberfond.jpg">
+	</div>
         <div class="switch-field">
-            <button onclick="startEnglish()">English</button>
-            <button onclick="startFrench()">Français</button>
+            <button onclick="startEnglish()" id= "EN" >English</button>
+            <button onclick="startFrench() " id= "FR" >Français</button>
+			
         </div>
-        <div id="image-frame"></div>
-        <div id="response-frame"></div>
+        <div id="image-frame"> </div>
+        <div id="response-frame"> 
+			
+	</div>
 		
 		
     </div>
@@ -150,7 +250,7 @@
         "Drooling",
         "Exhausted",
         "Star",
-        "Precisous",
+        "Precious",
         "Flowing",
         "Cruel",
         "Whale",
@@ -167,7 +267,7 @@
         "Muddy",
         "Chop",
         "Prickly",
-        "Strech",
+        "Stretch",
         "Thunder",
         "Gift",
         "Double",
@@ -199,12 +299,12 @@
         "Couteux",
         "Boueux",
         "Hacher",
-        "Epineux",
+        "Pointu",
         "Etiré",
         "Tonnerre",
         "Cadeau",
         "Double",
-        "Choc",
+        "Secousse",
         "Tranche"
     ];
 
@@ -293,8 +393,9 @@
 
     function endGame() {
         var scorPourcent = Math.round( (score * 100) / 31);
-        var endHtml = '<div id="finJeu"><div id="score"> Your score: ' + score + '/31</div> <div id="pourcentage">'+ scorPourcent +' %</div></div> ';
+        var endHtml = '<div id="finJeu"> <div id="Inktober"> <p> Inktober 2018 </p>  <div id="score"> Your score: ' + score + '/31</div> <div id="pourcentage">'+ scorPourcent +' %</div></div> ';
         htmlSet('container', endHtml);
+		
     }
 
     function htmlSet(id, value) {
@@ -308,12 +409,14 @@
     function startEnglish() {
         buildReponses()
         langageEnglish=true;
+		htmlSet('accueil','');
     }
 
     function startFrench() {
         buildReponsesFR()
         langageEnglish=false;
+		htmlSet('accueil','');
     }
 
-    //endGame();
+    endGame();
 </script>
